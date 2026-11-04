@@ -1,4 +1,6 @@
+import Chart from 'chart.js/auto';
 
+window.Chart = Chart;
 // Mengatur tema berdasarkan pilihan yang tersimpan
 const savedTheme = localStorage.getItem('camera-service-theme');
 

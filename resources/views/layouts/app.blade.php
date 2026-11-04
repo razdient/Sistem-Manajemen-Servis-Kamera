@@ -23,8 +23,9 @@
                     Dashboard
                 </a>
 
-                <a href="#" class="block rounded-lg px-4 py-3 text-sm text-muted hover:bg-surface-secondary hover:text-foreground">
-                    Data Pelanggan
+                <a href="{{ route('customers.index') }}"
+                class="block rounded-lg px-4 py-3 text-sm text-muted hover:bg-surface-secondary hover:text-foreground">
+                Data Pelanggan
                 </a>
 
                 <a href="#" class="block rounded-lg px-4 py-3 text-sm text-muted hover:bg-surface-secondary hover:text-foreground">
