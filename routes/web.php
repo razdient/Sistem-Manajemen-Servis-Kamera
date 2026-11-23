@@ -12,6 +12,8 @@ use App\Livewire\ServiceIntake;
 use App\Livewire\ServiceList;
 use App\Livewire\ServicePayment;
 use App\Livewire\ServiceWork;
+use App\Models\ServiceVisit;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/servis', ServiceList::class)->name('services.index');
@@ -31,3 +33,55 @@ Route::get('/servis/{id}/pembayaran', ServicePayment::class)
     ->name('services.payment');
 Route::get('/servis/{id}', ServiceDetail::class)
     ->name('services.show');
+
+Route::get('/servis/{id}/tanda-terima', function ($id) {
+    $visit = ServiceVisit::with([
+        'customer',
+        'devices',
+    ])->findOrFail($id);
+
+    return view('receipts.service-intake', [
+        'visit' => $visit,
+    ]);
+})->name('services.receipt');
+
+Route::get('/servis/{id}/tanda-terima/pdf', function ($id) {
+    $visit = ServiceVisit::with([
+        'customer',
+        'devices',
+    ])->findOrFail($id);
+
+    $pdf = Pdf::loadView('receipts.service-intake', [
+        'visit' => $visit,
+        'isPdf' => true,
+    ])->setPaper('a4');
+
+    return $pdf->download('Tanda-Terima-'.$visit->service_number.'.pdf');
+})->name('services.receipt.pdf');
+
+Route::get('/servis/{id}/bukti-pembayaran', function ($id) {
+    $visit = ServiceVisit::with([
+        'customer',
+        'devices.items',
+        'payments',
+    ])->findOrFail($id);
+
+    return view('receipts.payment-receipt', [
+        'visit' => $visit,
+    ]);
+})->name('services.payment-receipt');
+
+Route::get('/servis/{id}/bukti-pembayaran/pdf', function ($id) {
+    $visit = ServiceVisit::with([
+        'customer',
+        'devices.items',
+        'payments',
+    ])->findOrFail($id);
+
+    $pdf = Pdf::loadView('receipts.payment-receipt', [
+        'visit' => $visit,
+        'isPdf' => true,
+    ])->setPaper('a4');
+
+    return $pdf->download('Bukti-Pembayaran-'.$visit->service_number.'.pdf');
+})->name('services.payment-receipt.pdf');
