@@ -1,23 +1,20 @@
 import Chart from 'chart.js/auto';
 
 window.Chart = Chart;
-// Mengatur tema berdasarkan pilihan yang tersimpan
-const savedTheme = localStorage.getItem('camera-service-theme');
 
-if (savedTheme === 'dark') {
-    document.documentElement.classList.add('dark');
-} else {
-    document.documentElement.classList.remove('dark');
-}
-
-// Fungsi untuk mengganti tema
+// Tema awal diterapkan oleh script inline di <head> untuk mencegah blink.
+// Fungsi tombol ganti tema
 window.toggleTheme = function () {
     const isDark = document.documentElement.classList.toggle('dark');
+    document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
 
     localStorage.setItem(
         'camera-service-theme',
         isDark ? 'dark' : 'light'
     );
+
+    // Memberi tahu grafik bahwa tema berubah
+    window.dispatchEvent(new CustomEvent('theme-changed'));
 };
 
 window.sendWhatsappDocument = async function ({ pdfUrl, whatsappNumber, message, filename }) {

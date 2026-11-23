@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="flex gap-2">
-                    <button type="submit"
+                    <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-not-allowed"
                         class="rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground">
                         Simpan
                     </button>
@@ -84,7 +84,7 @@
                     <th class="px-5 py-3">Nama</th>
                     <th class="px-5 py-3">Telepon</th>
                     <th class="px-5 py-3">Alamat</th>
-                    <th class="px-5 py-3">Aksi</th>
+                    <th class="px-5 py-3 text-right">Aksi</th>
                 </tr>
             </thead>
 
@@ -95,16 +95,27 @@
                         <td class="px-5 py-4">{{ $customer->phone ?: '-' }}</td>
                         <td class="px-5 py-4">{{ $customer->address ?: '-' }}</td>
                         <td class="px-5 py-4">
-                            <div class="flex gap-3">
-                                <button wire:click="edit({{ $customer->id }})"
-                                    class="font-medium text-blue-600">
+                            <div class="flex items-center justify-end gap-2 whitespace-nowrap">
+                                <button
+                                    type="button"
+                                    wire:click="edit({{ $customer->id }})"
+                                    title="Edit data pelanggan"
+                                    aria-label="Edit data pelanggan"
+                                    class="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-2.5 py-1.5 text-xs font-medium text-foreground transition hover:bg-surface-secondary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                                >
+                                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                     Edit
                                 </button>
 
                                 <button
+                                    type="button"
                                     wire:click="delete({{ $customer->id }})"
                                     wire:confirm="Yakin ingin mengarsipkan pelanggan ini?"
-                                    class="font-medium text-red-600">
+                                    title="Arsipkan pelanggan"
+                                    aria-label="Arsipkan pelanggan"
+                                    class="inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs font-medium text-red-700 transition hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-300 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-300 dark:hover:bg-red-900/30"
+                                >
+                                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                                     Arsipkan
                                 </button>
                             </div>
