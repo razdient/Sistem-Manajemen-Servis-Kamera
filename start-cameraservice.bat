@@ -42,7 +42,7 @@ if errorlevel 1 (
 
 echo Menjalankan CameraService di http://127.0.0.1:8000 ...
 start "CameraService Server" /min "%PHP_EXE%" artisan serve --host=127.0.0.1 --port=8000
-timeout /t 3 /nobreak >nul
+powershell -NoProfile -Command "Start-Sleep -Seconds 3"
 start "" "http://127.0.0.1:8000"
 
 endlocal
